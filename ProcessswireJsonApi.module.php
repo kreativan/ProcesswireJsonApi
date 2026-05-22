@@ -25,6 +25,8 @@ namespace ProcessWire;
  *   GET  /pw-api/fields/{name}             single field detail
  *
  *
+ * 
+ * @author Ivan Milincic <ivan@milincic.com>
  * @license MIT
  */
 class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule {
@@ -34,6 +36,7 @@ class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule
 			'title'    => 'ProcessWire JSON API',
 			'version'  => '1.0.0',
 			'summary'  => 'JSON REST API exposing pages, templates and fields. Auth delegated to session.',
+			'author'   => 'Ivan Milincic',
 			'singular' => true,
 			'autoload' => true,
 			'icon'     => 'code-fork',
@@ -713,8 +716,4 @@ class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule
 
 		return $wrap;
 	}
-}
-
-// ─────────────────────────────────────────────────────────────────────
-class ProcessWireJsonApiException extends \RuntimeException {
 }
