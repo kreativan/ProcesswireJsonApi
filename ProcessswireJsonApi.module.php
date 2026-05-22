@@ -73,8 +73,8 @@ class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule
 
 		// Session check — actual auth is your other module's job
 		if (!wire('user')->isLoggedin()) {
-			$this->respond(401, ['error' => 'Not authenticated']);
-			exit;
+			//$this->respond(401, ['error' => 'Not authenticated']);
+			//exit;
 		}
 
 		$path   = trim(substr($url, strlen($prefix)), '/');
@@ -716,4 +716,7 @@ class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule
 
 		return $wrap;
 	}
+}
+
+class ProcessWireJsonApiException extends \RuntimeException {
 }
