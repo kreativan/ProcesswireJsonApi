@@ -71,10 +71,10 @@ class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule
 
 		header('Content-Type: application/json; charset=utf-8');
 
-		// Session check — actual auth is your other module's job
-		if (!wire('user')->isLoggedin()) {
-			//$this->respond(401, ['error' => 'Not authenticated']);
-			//exit;
+		// Session check — skipped when "requireLogin" is disabled in module config
+		if ($this->get('requireLogin') && !wire('user')->isLoggedin()) {
+			$this->respond(401, ['error' => 'Not authenticated']);
+			exit;
 		}
 
 		$path   = trim(substr($url, strlen($prefix)), '/');
@@ -703,6 +703,14 @@ class ProcessswireJsonApi extends WireData implements Module, ConfigurableModule
 		$f->description = 'URL segment used for all routes.';
 		$f->notes       = 'e.g. "pw-api" → yoursite.com/pw-api/pages';
 		$f->value       = $data['apiPrefix'] ?? 'pw-api';
+		$wrap->add($f);
+
+		$f = $modules->get('InputfieldCheckbox');
+		$f->attr('name', 'requireLogin');
+		$f->label       = 'Require login';
+		$f->description = 'When enabled, all API endpoints return 401 for unauthenticated requests. Disable to make the API fully public.';
+		$f->attr('checked', (int)($data['requireLogin'] ?? 1) ? 'checked' : '');
+		$f->value       = 1;
 		$wrap->add($f);
 
 		$f = $modules->get('InputfieldTextarea');
